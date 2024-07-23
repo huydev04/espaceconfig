@@ -1,6 +1,7 @@
 from cn_data import cndb
 import random
 import string
+from bson.objectid import ObjectId
 # Create your models here.
 class User:
     def __init__(self, userID, FullName, DateOfBirth, Gender, PhoneNumber, Address, Country, ProfilePicture, DateCreated, Status, Bio, Email, Password, Role, Hash):
@@ -56,12 +57,11 @@ class User:
         res = userCollection.find_one(query)
         return res
 
-class Post:
-    def __init__(self, postID, title, content, imageURL, tags, dateCreated, dateUpdated, status, likesCount, commentsCount, viewsCount, topicID, attachmentID, videoID, voteID):
-        self.postID = postID
+class PostDB:
+    def __init__(self, title, content, thumbnail, tags, dateCreated, dateUpdated, status, likesCount, commentsCount, viewsCount, topicID, attachmentID, videoID, voteID):
         self.title = title
         self.content = content
-        self.imageURL = imageURL
+        self.thumbnail = thumbnail
         self.tags = tags
         self.dateCreated = dateCreated
         self.dateUpdated = dateUpdated
@@ -74,19 +74,45 @@ class Post:
         self.videoID = videoID
         self.voteID = voteID
 
+    def savePost(doc):
+        db = cndb()
+        postCollection = db['Post']
+        print("Gọi savePost")
+        result = postCollection.insert_one(doc)
+
     def __str__(self):
         return f"Post(title={self.title}, status={self.status}, likes={self.likesCount})"
 
 
 class AttachmentFile:
-    def __init__(self, AttachmentID, ListFile):
-        self.AttachmentID = AttachmentID
+    def __init__(self, ListFile):
         self.listFile = ListFile
+    
+    def getID(attachList):
+        db = cndb()
+        attachmentFileCollection = db["AttachmentFile"]
+        attach_list = {
+            'listFile': attachList
+        }
+        saveAttach = attachmentFileCollection.insert_one(attach_list)
+        latest_document = attachmentFileCollection.find().sort('_id', -1).limit(1)
+        attachmentID = ""
+        for doc in latest_document:
+            attachmentID = doc['_id']
+        return attachmentID
 
 class Topic:
     def __init__(self, topicID, topicName):
         self.topicID = topicID
         self.topicName = topicName
+
+    def getTopic():
+        db = cndb()
+        topic = db['Topics']
+        rec = topic.find({})
+        for topic in rec:
+            return topic
+
 
 class ContentModeration:
     def __init__(self, postID, statusModeration):
@@ -107,10 +133,6 @@ class Comment:
         self.date_updated = date_updated
         self.reply = reply
 
-class Vote:
-    def __init__(self, voteID, VoteCount):
-        self.voteID = voteID
-        self.VoteCount = VoteCount
 
 class ReplyComment:
     def __init__(self, userIDReply, userIDComment, content, dateCreated, dateUpdate):
