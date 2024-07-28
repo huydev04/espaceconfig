@@ -16,7 +16,7 @@
         <div class="text-center">
             <h2 class="text-2xl font-bold">Đăng nhập</h2>
         </div>
-        <form class="space-y-6" method="POST" action="{% url 'login'%}">
+        <form class="space-y-6" method="POST" action="{% url 'user:login'%}">
             {% csrf_token %}
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="text-sm">
-                    <a href="{% url 'register' %}" class="font-medium text-indigo-600 hover:text-indigo-500">Đăng ký tài khoản!</a>
+                    <a href="{% url 'user:register' %}" class="font-medium text-indigo-600 hover:text-indigo-500">Đăng ký tài khoản!</a>
                 </div>
             <div>
                 <button type="submit"
@@ -48,7 +48,7 @@
                 </button>
             </div>
         </form>
-        <div class="relative mt-6">
+        {% comment %} <div class="relative mt-6">
             <div class="absolute inset-0 flex items-center">
                 <div class="w-full border-t border-gray-300"></div>
             </div>
@@ -67,7 +67,7 @@
                 </svg>
                 Đăng nhập bằng Google
             </button>
-        </div>
+        </div> {% endcomment %}
     </div>
 
 </body>

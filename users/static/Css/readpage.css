@@ -1,0 +1,144 @@
+.left-column-top, .left-column-bottom, .right-column {
+    background-color: #ffffff; /* White background */
+    margin: 10px 0; /* Margin for spacing between sections */
+    padding: 20px; /* Padding inside the sections */
+    border: 1px solid #ddd; /* Optional: Border for better visualization */
+}
+
+/* Đảm bảo body và html có chiều cao tối thiểu là 100% */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.right-column {
+    flex: 1; /* Tự động mở rộng để chiếm không gian còn lại */
+}
+/* Sử dụng Flexbox cho body để đặt footer ở cuối trang */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Đảm bảo body ít nhất cao bằng viewport */
+}
+
+/* Phần nội dung chính */
+.content {
+    flex: 1; /* Làm cho phần nội dung chính chiếm toàn bộ không gian còn lại */
+    padding: 15px;
+    
+}
+
+.post-container {
+    margin-bottom: 2rem; /* Khoảng cách dưới của mỗi bài viết */
+}   
+
+/* Khoảng cách giữa tiêu đề bài viết và các phần khác */
+.post-header, .post-image, .post-content, .attachments, .comments, .post-footer {
+    margin-bottom: 1.5rem; /* Khoảng cách dưới của từng phần */
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+/* Footer */
+.footer {
+    background-color: white;
+    font-size: small;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+}
+
+/* Tạo kiểu dáng và căn chỉnh cho các bình luận */
+.comment-list {
+    margin-bottom: 1.5rem; /* Khoảng cách dưới của danh sách bình luận */
+}
+
+/* Tạo kiểu dáng cho từng bình luận */
+.comment-item {
+    background-color: #fff; /* Màu nền trắng cho bình luận */
+    border: 1px solid #ddd; /* Đường viền nhạt */
+    border-radius: 0.5rem; /* Bo tròn góc */
+    padding: 1rem; /* Khoảng cách bên trong */
+}
+
+/* Avatar của người dùng */
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover; /* Đảm bảo ảnh không bị biến dạng */
+}
+
+/* Nội dung bình luận */
+.comment-content {
+    flex: 1; /* Chiếm không gian còn lại */
+}
+
+/* Tạo kiểu dáng cho phần gửi bình luận mới */
+.comment-form {
+    background-color: #f0f2f5; /* Màu nền nhạt cho form */
+    border: 1px solid #ddd; /* Đường viền nhạt */
+    border-radius: 0.5rem; /* Bo tròn góc */
+    padding: 1rem; /* Khoảng cách bên trong */
+}
+
+/* Đảm bảo textarea chiếm toàn bộ chiều rộng */
+.comment-form .form-control {
+    border-radius: 0.5rem; /* Bo tròn góc cho textarea */
+}
+
+/* Nút gửi bình luận */
+.comment-form .btn {
+    border-radius: 0.5rem; /* Bo tròn góc cho nút gửi */
+}
+
+/* CSS cho bài viết */
+.post-container {
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: white;
+}
+
+.post-header h1 {
+    font-size: 1.5rem;
+}
+
+.post-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.post-content p {
+    line-height: 1.6;
+}
+
+.attachments ul {
+    padding-left: 0;
+}
+
+.attachment-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.attachment-item a:hover {
+    text-decoration: underline;
+}
+
+.comment-item {
+    background-color: #fff;
+}
+
+.comment-form textarea {
+    resize: none;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+

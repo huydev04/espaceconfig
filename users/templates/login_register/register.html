@@ -14,7 +14,7 @@
     <div class="min-h-screen flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
             <h2 class="text-2xl font-bold mb-6 text-center">Đăng ký</h2>
-            <form method="POST" action="{% url 'register'%}">
+            <form method="POST" action="{% url 'user:register'%}">
                 {% csrf_token %}
                 <div class="mb-4">
                     <label for="fullname" class="block text-gray-700 text-sm font-bold mb-2">Họ và Tên</label>
@@ -61,7 +61,7 @@
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Đăng ký</button>
                 </div>
             </form>
-            <p class="text-center mt-4">Đã có tài khoản? <a href="{% url 'login' %}" class="text-blue-500">Đăng nhập</a></p>
+            <p class="text-center mt-4">Đã có tài khoản? <a href="{% url 'user:login' %}" class="text-blue-500">Đăng nhập</a></p>
         </div>
     </div>
 </body>

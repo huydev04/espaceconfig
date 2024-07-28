@@ -16,4 +16,9 @@ class Session:
             return False
         else:
             return True
+    
+    def updateSession(self, user):
+        for u in self.List:
+            if u.Email == user.Email:
+                u.ProfilePicture = user.ProfilePicture
 

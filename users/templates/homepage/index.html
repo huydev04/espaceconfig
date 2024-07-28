@@ -27,10 +27,10 @@
     </div>
         {%endfor%}
     {%endif%}
-    <div class="header">
+     <div class="header">
         <div class="header-top">
             <div class="header-left">
-            <a href="{% url "home" %}" class="header-left-items">
+            <a href="{% url "user:home" %}" class="header-left-items">
                 <img class="header-logo" src="{% static "./images/espacelogo.png" %}" alt=""></a>
             <a href="#" class="header-left-items"><img class="icon" src="{% static "./images/icon/facebook.png" %}" alt=""></a>
             <a href="#" class="header-left-items"><img class="icon" src="{% static "./images/icon/youtube.png" %}" alt=""></a>
@@ -56,15 +56,17 @@
                 <div class="col-md-4">
                     <div class="dropdown">
                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{% static "./images/icon/avatar.png" %}" alt="Avatar" width="32" height="32" class="rounded-circle">
+                        {% load custom_tags %}
+                        {% avatar user.ProfilePicture as image_url %}
+                        <img src="{{image_url}}" alt="Avatar" width="25" height="30" class="rounded-circle">
                         <span class="ms-2">{{user.FullName}}</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Chức năng 1</a>
-                        <a class="dropdown-item" href="#">Chức năng 2</a>
-                        <a class="dropdown-item" href="#">Chức năng 3</a>
+                        <a class="dropdown-item" href="{% url "user:profile" %}">Trang cá nhân</a>
+                        <a class="dropdown-item" href="{% url "user:account" %}">Tài khoản</a>
+                        {% comment %} <a class="dropdown-item" href="#">Chức năng 3</a> {% endcomment %}
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url "logout" %}"><img src="{% static "./images/icon/logout.png" %}"/> Đăng xuất</a>
+                        <a class="dropdown-item" href="{% url "user:logout" %}"><img src="{% static "./images/icon/logout.png" %}"/> Đăng xuất</a>
                     </div>
                     </div>
                 </div>
@@ -74,25 +76,18 @@
         </div>
         <div class="header-bottom">
             <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
+            {%for i in topic.list%}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{i.topID}}">{{i.TopicName}}</a>
+                </li>
+            {% endfor %}
             </ul>
         </div>
     </div>
     <!--Body-->
     <div class="content">
         <div class="content-body">
-            <div class="content-video">
+            {% comment %} <div class="content-video">
                 <h6 style="padding-left: 2.5px; padding-top: 2px;"><strong>VIDEO TRÊN ESPACE</strong></h6>
                 <div class="list-video">
                     <div class="card card-items" style="width: 14.9rem;">
@@ -167,12 +162,12 @@
                     </div>
                     <!--end list video-->
                 </div>
-            </div>
+            </div> {% endcomment %}
             <div class="content-post">
                 <div class="container">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Trang chủ</a>
+                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Bài viết mới</a>
                         </li>
                         <li class="nav-item" role="presentation">
                         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Hồ sơ</a>
@@ -187,232 +182,58 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="list-post">
-                                    <div class="post">
-                                        <div class="post-img">
-                                            <a href="#"><img class="img-small-post" src="{% static "./images/feed-image-2.png" %}" alt=""></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <span class="post-detail">
-                                                <p>Chủ đề &middot; 24 phút trước</p>
-                                                <img style="width: auto; height: auto;" src="{% static "./images/icon/bookmark.png" %}" alt="">
-                                            </span>
-                                            <span>
-                                                <a href="#" style="text-decoration: none"><p class="title-small-post">
-                                                    <strong>Làm thế nào để tối ưu hoá việc phát triển bản thân?</strong>
-                                                </p>
-                                                <p class="describe-small-post">
-                                                    Nếu không tiện đọc bài viết, bạn có thể nghe bản audio tại đây: Mình dám cá là 90% học...
-                                                </p>
-                                                </a>
-                                            </span>
-                                            <div class="auth-p">
-                                                <div class="post-small-avatar">
-                                                    <a href="#" style="text-decoration: none">
-                                                        <img class="img-auth-post" src="{% static "./images/icon/avatar.png" %}" alt="">
-                                                        
-                                                    </a>
-                                                    <a href="#" style="text-decoration: none">
-                                                        <p class="auth-post">
-                                                        Scarlet
-                                                        </p>
-                                                    </a>
-                                                    
-                                                </div>
-                                                    <p class="created-date" style="margin-left: 10px;">
-                                                        <strong>Th3 2020</strong> 
-                                                    </p>
+                                {%for i in listPost%}
+                                    {% if  i.title != "" %}
+                                        {%for t in topic.list%}
+                                            {% if t.topID|stringformat:"s" == i.topicID|stringformat:"s" %}
+                                            {% load custom_tags %}
+                                            {% show_image i.thumbnail as image_url %}
+                                                <div class="post">
+                                                    <div class="post-img">
+                                                    <a href="{% url "user:reader" %}?param={{i.title}}"><img class="img-small-post" src="{{ image_url }}" alt=""></a>
+                                                    </div>
+                                                    <div class="post-content">
+                                                        <span class="post-detail">
+                                                            <p>{{t.TopicName}} &middot; {{i.dateCreated|date:"d/m/Y" }}</p>
+                                                            <img style="width: auto; height: auto;" src="{% static "./images/icon/bookmark.png" %}" alt="">
+                                                        </span>
+                                                        <span>
+                                                            <a href="{% url "user:reader" %}?param={{i.title}}" style="text-decoration: none"><p class="title-small-post">
+                                                                <strong>{{i.title}}</strong>
+                                                            </p>
+                                                            <p class="describe-small-post">
+                                                            </p>
+                                                            </a>
+                                                        </span>
+                                                        <div class="auth-p">
+                                                            
+                                                            <div class="post-small-avatar">
+                                                                <a href="#" style="text-decoration: none">
+                                                                    {%for au in authorList%}
+                                                                        {% if i.author == au.name%}
+                                                                            {% avatar au.avatar as avatar %} 
+                                                                            <img class="img-auth-post" src="{{avatar}}" alt="">
+                                                                        {% endif %}
+                                                                    {%endfor%}   
+                                                                </a>
+                                                                <a href="#" style="text-decoration: none">
+                                                                    <p class="auth-post">
+                                                                    {{i.author}}
+                                                                    </p>
+                                                                </a>
+                                                                
+                                                            </div>
+                                                                <p class="created-date" style="margin-left: 10px;">
+                                                                    <strong>Th3 2020</strong> 
+                                                                </p>
+                                                        </div>
+                                                    </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-img">
-                                            <a href="#"><img class="img-small-post" src="./images/feed-image-2.png" alt=""></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <span class="post-detail">
-                                                <p>Chủ đề &middot; 24 phút trước</p>
-                                                <img style="width: auto; height: auto;" src="./images/icon/bookmark.png" alt="">
-                                            </span>
-                                            <span>
-                                                <a href="#" style="text-decoration: none"><p class="title-small-post">
-                                                    <strong>Làm thế nào để tối ưu hoá việc phát triển bản thân?</strong>
-                                                </p>
-                                                <p class="describe-small-post">
-                                                    Nếu không tiện đọc bài viết, bạn có thể nghe bản audio tại đây: Mình dám cá là 90% học...
-                                                </p>
-                                                </a>
-                                            </span>
-                                            <div class="auth-p">
-                                                <div class="post-small-avatar">
-                                                    <a href="#" style="text-decoration: none">
-                                                        <img class="img-auth-post" src="./images/icon/avatar.png" alt="">
-                                                        
-                                                    </a>
-                                                    <a href="#" style="text-decoration: none">
-                                                        <p class="auth-post">
-                                                        Scarlet
-                                                        </p>
-                                                    </a>
-                                                    
-                                                </div>
-                                                    <p class="created-date" style="margin-left: 10px;">
-                                                        <strong>Th3 2020</strong> 
-                                                    </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="post">
-                                        <div class="post-img">
-                                            <a href="#"><img class="img-small-post" src="./images/feed-image-2.png" alt=""></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <span class="post-detail">
-                                                <p>Chủ đề &middot; 24 phút trước</p>
-                                                <img style="width: auto; height: auto;" src="./images/icon/bookmark.png" alt="">
-                                            </span>
-                                            <span>
-                                                <a href="#" style="text-decoration: none"><p class="title-small-post">
-                                                    <strong>Làm thế nào để tối ưu hoá việc phát triển bản thân?</strong>
-                                                </p>
-                                                <p class="describe-small-post">
-                                                    Nếu không tiện đọc bài viết, bạn có thể nghe bản audio tại đây: Mình dám cá là 90% học...
-                                                </p>
-                                                </a>
-                                            </span>
-                                            <div class="auth-p">
-                                                <div class="post-small-avatar">
-                                                    <a href="#" style="text-decoration: none">
-                                                        <img class="img-auth-post" src="./images/icon/avatar.png" alt="">
-                                                        
-                                                    </a>
-                                                    <a href="#" style="text-decoration: none">
-                                                        <p class="auth-post">
-                                                        Scarlet
-                                                        </p>
-                                                    </a>
-                                                    
-                                                </div>
-                                                    <p class="created-date" style="margin-left: 10px;">
-                                                        <strong>Th3 2020</strong> 
-                                                    </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="post">
-                                        <div class="post-img">
-                                            <a href="#"><img class="img-small-post" src="./images/feed-image-2.png" alt=""></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <span class="post-detail">
-                                                <p>Chủ đề &middot; 24 phút trước</p>
-                                                <img style="width: auto; height: auto;" src="./images/icon/bookmark.png" alt="">
-                                            </span>
-                                            <span>
-                                                <a href="#" style="text-decoration: none"><p class="title-small-post">
-                                                    <strong>Làm thế nào để tối ưu hoá việc phát triển bản thân?</strong>
-                                                </p>
-                                                <p class="describe-small-post">
-                                                    Nếu không tiện đọc bài viết, bạn có thể nghe bản audio tại đây: Mình dám cá là 90% học...
-                                                </p>
-                                                </a>
-                                            </span>
-                                            <div class="auth-p">
-                                                <div class="post-small-avatar">
-                                                    <a href="#" style="text-decoration: none">
-                                                        <img class="img-auth-post" src="./images/icon/avatar.png" alt="">
-                                                        
-                                                    </a>
-                                                    <a href="#" style="text-decoration: none">
-                                                        <p class="auth-post">
-                                                        Scarlet
-                                                        </p>
-                                                    </a>
-                                                    
-                                                </div>
-                                                    <p class="created-date" style="margin-left: 10px;">
-                                                        <strong>Th3 2020</strong> 
-                                                    </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="post">
-                                        <div class="post-img">
-                                            <a href="#"><img class="img-small-post" src="./images/feed-image-2.png" alt=""></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <span class="post-detail">
-                                                <p>Chủ đề &middot; 24 phút trước</p>
-                                                <img style="width: auto; height: auto;" src="./images/icon/bookmark.png" alt="">
-                                            </span>
-                                            <span>
-                                                <a href="#" style="text-decoration: none"><p class="title-small-post">
-                                                    <strong>Làm thế nào để tối ưu hoá việc phát triển bản thân?</strong>
-                                                </p>
-                                                <p class="describe-small-post">
-                                                    Nếu không tiện đọc bài viết, bạn có thể nghe bản audio tại đây: Mình dám cá là 90% học...
-                                                </p>
-                                                </a>
-                                            </span>
-                                            <div class="auth-p">
-                                                <div class="post-small-avatar">
-                                                    <a href="#" style="text-decoration: none">
-                                                        <img class="img-auth-post" src="./images/icon/avatar.png" alt="">
-                                                        
-                                                    </a>
-                                                    <a href="#" style="text-decoration: none">
-                                                        <p class="auth-post">
-                                                        Scarlet
-                                                        </p>
-                                                    </a>
-                                                    
-                                                </div>
-                                                    <p class="created-date" style="margin-left: 10px;">
-                                                        <strong>Th3 2020</strong> 
-                                                    </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="post">
-                                        <div class="post-img">
-                                            <a href="#"><img class="img-small-post" src="./images/feed-image-2.png" alt=""></a>
-                                        </div>
-                                        <div class="post-content">
-                                            <span class="post-detail">
-                                                <p>Chủ đề &middot; 24 phút trước</p>
-                                                <img style="width: auto; height: auto;" src="./images/icon/bookmark.png" alt="">
-                                            </span>
-                                            <span>
-                                                <a href="#" style="text-decoration: none"><p class="title-small-post">
-                                                    <strong>Làm thế nào để tối ưu hoá việc phát triển bản thân?</strong>
-                                                </p>
-                                                <p class="describe-small-post">
-                                                    Nếu không tiện đọc bài viết, bạn có thể nghe bản audio tại đây: Mình dám cá là 90% học...
-                                                </p>
-                                                </a>
-                                            </span>
-                                            <div class="auth-p">
-                                                <div class="post-small-avatar">
-                                                    <a href="#" style="text-decoration: none">
-                                                        <img class="img-auth-post" src="./images/icon/avatar.png" alt="">
-                                                        
-                                                    </a>
-                                                    <a href="#" style="text-decoration: none">
-                                                        <p class="auth-post">
-                                                        Scarlet
-                                                        </p>
-                                                    </a>
-                                                    
-                                                </div>
-                                                    <p class="created-date" style="margin-left: 10px;">
-                                                        <strong>Th3 2020</strong> 
-                                                    </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         <!--end-->
                         </div>
                     </div>
@@ -531,22 +352,20 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script>
-        const button = document.getElementById('writepost');
-        button.addEventListener('click', function() {
-            window.location.href = '{% url "post" %}';
-        });
-    </script>
-    {% if messages %}
-    <script>
         document.addEventListener('DOMContentLoaded', (event) => {
+            const button = document.getElementById('writepost');
+            button.addEventListener('click', function(event) {
+                event.preventDefault();  // Ngăn chặn hành vi mặc định
+                window.location.href = '{% url "user:post" %}';
+            });
+    
             var toastEl = document.getElementById('liveToast');
             var toast = new bootstrap.Toast(toastEl, {
                 autohide: true,
                 delay: 5000  // Hiển thị toast trong 5 giây
             });
             toast.show();
-        {% endif %}
-        </script>
         });
+    </script>
 </body>
 </html>

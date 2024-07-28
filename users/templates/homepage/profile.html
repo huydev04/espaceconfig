@@ -1,368 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "Css/style.css" %}">
-    <title>Trang cá nhân</title>
-    <link rel="icon" type="image/png" sizes="16x16"  href="{% static "images/favicon.png" %}">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
-    <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static "Css/layout.css" %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Trang chủ</title>
+    <link rel="icon" type="image/x-icon" href="{% static "./images/icon/favicon.ico" %}">
 </head>
+<style>
+    .profile-header {
+        text-align: center;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
 
+    .profile-header .avatar {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border: 4px solid #dee2e6;
+        border-radius: 50%;
+    }
+
+    .follow-info span {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .content-auth {
+        margin-bottom: 20px;
+    }
+
+    .content-auth img {
+        border-radius: 50%;
+    }
+
+    .context-aside-right-header {
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .context-aside-right-body {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .context-aside-right-body img {
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .context-aside-right-body .button-follow {
+        margin-left: auto;
+    }
+
+    .list-group-item {
+        border: none;
+    }
+
+    .list-group-numbered .list-group-item::before {
+        content: counter(list-group-item-counter) ". ";
+        counter-increment: list-group-item-counter;
+    }
+    .profile-header,
+    .posts-section,
+    .content-auth,
+    .context-post-outstanding {
+        background-color: #ffffff; /* Màu nền trắng cho các khung */
+        border: 1px solid #dee2e6; /* Viền màu xám nhạt */
+        border-radius: 8px; /* Bo góc */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+        padding: 20px; /* Khoảng cách bên trong */
+        margin-bottom: 20px; /* Khoảng cách dưới cùng */
+    }
+
+    /* Khung màu cho các bài viết nổi bật */
+    .context-post-outstanding {
+        background-color: #f8f9fa; /* Màu nền xám nhạt cho khu vực bài viết nổi bật */
+        border: 1px solid #dee2e6; /* Viền màu xám nhạt */
+    }
+
+    /* Khung màu cho các tác giả nổi bật */
+    .content-auth {
+        background-color: #f8f9fa; /* Màu nền xám nhạt cho khu vực tác giả nổi bật */
+    }
+
+    /* Khung màu cho tiêu đề của các khu vực */
+    .context-aside-right-header h6 {
+        font-size: 1.25rem; /* Kích thước chữ lớn hơn */
+        font-weight: bold; /* Đậm */
+        color: #333; /* Màu chữ tối hơn */
+    }
+
+    /* Khung màu cho danh sách các bài viết */
+    .list-group-item {
+        border: 1px solid #dee2e6; /* Viền màu xám nhạt */
+        border-radius: 8px; /* Bo góc cho các mục */
+        padding: 15px; /* Khoảng cách bên trong */
+    }
+
+    /* Khung màu cho các nút và liên kết */
+    .btn-outline-primary {
+        border-color: #007bff; /* Màu viền của nút */
+        color: #007bff; /* Màu chữ của nút */
+    }
+
+    /* Khung màu cho các nút liên kết */
+    .view-more-link {
+        color: #007bff; /* Màu chữ của liên kết */
+        text-decoration: none; /* Bỏ gạch chân */
+    }
+
+    .view-more-link:hover {
+        text-decoration: underline; /* Gạch chân khi di chuột qua */
+    }
+</style>
 <body>
-    <nav class="navbar">
-        <div class="nav-left">
-            <a href="{% url "home" %}"><img class="logo" src="{% static "images/espacelogo.png" %}" alt=""></a>
-            <ul class="navlogo">
-                <li><img src="{% static "images/inbox.png" %}"></li>
-                <li><img src="{% static "images/video.png" %}"></li>
-                <li><img src="{% static "images/notification.png" %}"></li>
+    <!--Header-->
+    {%if messages != ""%}
+         {%for message in messages%}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="https://via.placeholder.com/20" class="rounded me-2" alt="...">
+            <strong class="me-auto">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            {{message}}
+        </div>
+    </div>
+    </div>
+        {%endfor%}
+    {%endif%}
+    <div class="header">
+        <div class="header-top">
+            <div class="header-left">
+            <a href="{% url "user:home" %}" class="header-left-items">
+                <img class="header-logo" src="{% static "./images/espacelogo.png" %}" alt=""></a>
+            <a href="#" class="header-left-items"><img class="icon" src="{% static "./images/icon/facebook.png" %}" alt=""></a>
+            <a href="#" class="header-left-items"><img class="icon" src="{% static "./images/icon/youtube.png" %}" alt=""></a>
+
+            <a href="#" class="header-left-items"><img class="icon" src="{% static "./images/icon/twitter.png" %}" alt=""></a>
+        </div>
+        <div class="header-mid">
+            <form class="search-form" action="#">
+                <input type="text"  placeholder="Tìm bài viết, tác giả ...">
+                <button type="submit"><img class="icon" src="{% static "./images/icon/find.png" %}" alt=""></button>
+              </form>
+        </div>
+        <div class="header-right">
+            <a href="#" class="header-right-items"><img class="icon" src="{% static "./images/icon/inbox.png" %}" alt=""></a>
+            <a href="#" class="header-right-items"><img class="icon" src="{% static "./images/icon/notification.png" %}" alt=""></a>
+            <!-- <a href="#">Viết bài</a> -->
+            <div class="header-right-items">
+                <button type="button" id="writepost" class="btn btn-light" style="width: 100px;"><img class="icon" src="{% static "./images/icon/feather-pen.png" %}" alt="">Viết bài</button>
+            </div>
+            
+            <div class="container header-right-items">
+                <div class="row">
+                <div class="col-md-4">
+                    <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% load custom_tags %}
+                        {% avatar user.ProfilePicture as image_url %}
+                        <img src="{{image_url}}" alt="Avatar" width="25" height="30" class="rounded-circle">
+                        <span class="ms-2">{{user.FullName}}</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url "user:profile" %}">Profile</a>
+                        <a class="dropdown-item" href="#">Chức năng 2</a>
+                        <a class="dropdown-item" href="#">Chức năng 3</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url "user:logout" %}"><img src="{% static "./images/icon/logout.png" %}"/> Đăng xuất</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="header-bottom">
+            <ul class="nav">
+            {%for i in topic.list%}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{i.topID}}">{{i.TopicName}}</a>
+                </li>
+            {% endfor %}
             </ul>
         </div>
-        <div class="nav-right">
-            <div class="search-box">
-                <img src="{% static "images/search.png" %}" alt="">
-                <input type="text" placeholder="Search">
-            </div>
-            <div class="profile-image online" onclick="UserSettingToggle()">
-                <img src="{% static "images/profile-pic.png" %}" alt="">
-            </div>
-
-        </div>
-        <div class="user-settings">
-            <div class="profile-darkButton">
-            <div class="user-profile">
-                <img src="{% static "images/profile-pic.png" %}" alt="">
-                <div>
-                    <p>{{user.FullName}}</p>
-                    <a href="{% url "profile" %}">Trang cá nhân</a>
-                </div>
-            </div>
-            <div id="dark-button" onclick="darkModeON()">
-                <span></span>
-            </div>
-            </div>
-            <hr>
-            <div class="user-profile">
-                <img src="{% static "images/feedback.png" %}" alt="">
-                <div>
-                    <p>Gửi báo cáo</p>
-                    <a href="#">Giúp chúng tôi kiểm soát nội dung</a>
-                </div>
-            </div>
-            <hr>
-            <div class="settings-links">
-                <img src="{% static "images/setting.png" %}" alt="" class="settings-icon">
-                <a href="#">Cài đặt và bảo mật <img src="{% static "images/arrow.png" %}" alt=""></a>
-            </div>
-
-            <div class="settings-links">
-                <img src="{% static "images/help.png" %}" alt="" class="settings-icon">
-                <a href="#">Hỗ trợ <img src="{% static "images/arrow.png" %}" alt=""></a>
-            </div>
-
-            {% comment %} <div class="settings-links">
-                <img src="{% static "images/Display.png" %}" alt="" class="settings-icon">
-                <a href="#">Display & Accessibility <img src="{% static "images/arrow.png" %}" alt=""></a>
-            </div> {% endcomment %}
-
-            <div class="settings-links">
-                <img src="{% static "images/logout.png" %}" alt="" class="settings-icon">
-                <a href="{% url 'logout'%}">Đăng xuất <img src="{% static "images/arrow.png" %}" alt=""></a>
-            </div>
-
-        </div>
-</nav>
-
-    <!-- profile-page-------------------------- -->
-
-
-    <div class="profile-container">
-        <img src="{% static "images/cover.png" %}" class="coverImage" alt="">
-        <div class="dashboard">
-            <div class="left-dashboard">
-                <img src="{% static "images/profile.png" %}" class="dashboard-img" alt="">
-                <div class="left-dashboard-info">
-                    <h3>Jack Nichoson</h3>
-                    <p>120 Friends - 20 mutuals</p>
-                    <div class="mutual-friend-images">
-                        <img src="{% static "images/member-1.png" %}" alt="">
-                        <img src="{% static "images/member-2.png" %}" alt="">
-                        <img src="{% static "images/member-3.png" %}" alt="">
-                        <img src="{% static "images/member-5.png" %}" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="right-dashboard-info">
-                <div class="right-dashboard-info-top">
-
-                    <button type="button"><i class="fas fa-user-plus"></i> Friends</button>
-                    <button type="button"><i class="far fa-envelope"></i> messages</button>
-                </div>
-                <div class="right-div-single-logo"> <a href="#"> <i class="fas fa-ellipsis-h"></i></a></div>
-            </div>
-        </div>
-
-
-        <div class="container content-profile-container">
-            <div class="left-sidebar profile-left-sidebar">
-                <div class="left-profile-sidebar-top">
-                    <div class="intro-bio">
-                        <h4>intro</h4>
-                        <p>Belive in yourself and you do unbelievable things <i class="far fa-smile-beam"></i></p>
-                        <hr>
-                    </div>
-                    <div class="background-details">
-                        <a href="#"><i class="fas fa-briefcase"></i>
-                            <p>Freelancer on Fiverr</p>
-                        </a>
-                        <a href="#"><i class="fas fa-graduation-cap"></i>
-                            <p>Studied bsc at Choumuhoni Collage</p>
-                        </a>
-                        <a href="#"><i class="fas fa-user-graduate"></i>
-                            <p>Went to Technical School & Collage</p>
-                        </a>
-                        <a href="#"><i class="fas fa-home"></i>
-                            <p>Lives in Noakhali, Chittagong</p>
-                        </a>
-                        <a href="#"><i class="fas fa-map-marker-alt"></i>
-                            <p>From Chittagong, Bangladesh</p>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="left-profile-sidebar-top gallery">
-                    <div class="heading-link profile-heading-link">
-                        <h4>Photos</h4>
-                        <a href="">All Photos</a>
-                    </div>
-
-                    <div class="gallery-photos">
-                        <div class="gallery-photos-rowFirst">
-                            <img src="{% static "images/photo1.png" %}" alt="">
-                            <img src="{% static "images/photo2.png" %}" alt="">
-                            <img src="{% static "images/photo3.png" %}" alt="">
+    </div>
+    <!--Body-->
+    <div class="content" style="background-color: #FFFAF0;">
+        <div class="container mt-5">
+            <div class="row">
+                <!-- Sidebar Left (Personal Information) -->
+                <div class="col-lg-4 mb-4">
+                    <div class="profile-header">
+                        {% load custom_tags %}
+                        {% avatar user.ProfilePicture as avatar %}
+                        <img src="{{avatar}}" alt="Profile Picture" class="avatar img-fluid rounded-circle" id="profile-picture">
+                        <h2 class="mt-3">{{ user.FullName }}</h2>
+                        <p class="text-muted">{{ user.Bio }}</p>
+                        <p>{{ user.bio }}</p>
+                        <div class="follow-info mt-2">
+                            <span class="me-3">Bạn đang theo dõi: {{ user.followers.count }}</span>
+                            <span>Tác giả khác theo dõi bạn : {{ user.following.count }}</span>
+                        </div>
                     
-                            <img src="{% static "images/photo4.png" %}" alt="">
-                            <img src="{% static "images/photo5.png" %}" alt="">
-                            <img src="{% static "images/photo6.png" %}" alt="">
-                        </div>
+                        <!-- Form for updating profile picture -->
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" id="profile-picture-input" name="profile_picture" class="form-control" style="display: none;" onchange="document.getElementById('profile-picture-form').submit();">
+                            <button type="submit" id="profile-picture-submit" style="display: none;">Upload</button>
+                        </form>
                     </div>
                 </div>
-
-                <div class="left-profile-sidebar-top gallery">
-                    <div class="heading-link profile-heading-link">
-                        <h4>Friends</h4>
-                        <a href="">All Friends</a>
-                    </div>
-
-                    <div class="gallery-photos">
-                        <div class="gallery-photos-rowFirst">
-                            <div class="first-friend">
-                                <img src="{% static "images/member-1.png" %}" alt="">
-                                <p>Nathan M</p>
-                            </div>
-                            <div class="second-friend">
-                                <img src="{% static "images/member-2.png" %}" alt="">
-                                <p>Joseph N</p>
-                            </div>
-                            <div class="third-friend">
-                                <img src="{% static "images/member-3.png" %}" alt="">
-                                <p>Blondie K</p>
-                            </div>
-                            <div class="forth-friend">
-                                <img src="{% static "images/member-4.png" %}" alt="">
-                                <p>Jonathon J</p>
-                            </div>
-                            <div class="fifth-friend">
-                                <img src="{% static "images/member-5.png" %}" alt="">
-                                <p>Mark K</p>
-                            </div>
-                            <div class="sixth-friend">
-                                <img src="{% static "images/member-6.png" %}" alt="">
-                                <p>Emilia M</p>
-                            </div>
-                            <div class="seventh-friend">
-                                <img src="{% static "images/member-7.png" %}" alt="">
-                                <p>Max P</p>
-                            </div>
-                            <div class="eighth-friend">
-                                <img src="{% static "images/member-8.png" %}" alt="">
-                                <p>Layla M</p>
-                            </div>
-                            <div class="ninth-friend">
-                                <img src="{% static "images/member-9.png" %}" alt="">
-                                <p>Edward M</p>
-                            </div>
-                        </div>
+    
+                <!-- Main Content (Recent Posts) -->
+                <div class="col-lg-8">
+                    <div class="posts-section mb-4">
+                        <h3>Recent Posts</h3>
+                        <ul class="list-group">
+                            {% for post in listPost %}
+                                {% if post.title != "" %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">{{ post.title }}</div>
+                                            <p class="mb-0 text-muted">{{ post.date_created|date:"d/m/Y" }}</p>
+                                        </div>
+                                        <a href="{% url "user:reader" %}?param={{post.title}}" class="btn btn-outline-primary">View</a>
+                                    </li>
+                                {% endif %}
+                                
+                            {% empty %}
+                                <li class="list-group-item">No posts available.</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
-
-            </div>
-
-            <!-- main-content------- -->
-
-            <div class="content-area profile-content-area">
-                <div class="write-post-container">
-                    <div class="user-profile">
-                        <img src="{% static "images/profile-pic.png" %}" alt="">
-                        <div>
-                            <p> Alex Carry</p>
-                            <small>Public <i class="fas fa-caret-down"></i></small>
-                        </div>
-                    </div>
-
-                    <div class="post-upload-textarea">
-                        <textarea name="" placeholder="What's on your mind, Alex?" id="" cols="30" rows="3"></textarea>
-                        <div class="add-post-links">
-                            <a href="#"><img src="{% static "images/live-video.png" %}" alt="">Live Video</a>
-                            <a href="#"><img src="{% static "images/photo.png" %}" alt="">Photo/Video</a>
-                            <a href="#"><img src="{% static "images/feeling.png" %}" alt="">Feeling Activity</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="status-field-container write-post-container">
-                    <div class="user-profile-box">
-                        <div class="user-profile">
-                            <img src="{% static "images/profile-pic.png" %}" alt="">
-                            <div>
-                                <p> Alex Carry</p>
-                                <small>August 13 1999, 09.18 pm</small>
-                            </div>
+    
+                <!-- Sidebar Right (Featured Authors and Outstanding Posts) -->
+                <div class="col-lg-4">
+                    <!-- Featured Authors -->
+                    <div class="content-auth mb-4">
+                        <div class="context-aside-right-header d-flex justify-content-between align-items-center">
+                            <h6 class="title-aside"><strong>Featured Authors</strong></h6>
+                            <a href="#" class="view-more-link">View More</a>
                         </div>
                         <div>
-                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
+                            {% for author in featured_authors %}
+                                <div class="context-aside-right-body d-flex align-items-center mb-3">
+                                    <img src="{{ author.profile_picture.url }}" alt="Author" class="rounded-circle" width="50" height="50">
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1">{{ author.username }}</p>
+                                        <p class="text-muted mb-0">{{ author.bio }}</p>
+                                    </div>
+                                    <a href="#" class="btn btn-outline-primary ms-auto">Follow</a>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="status-field">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                            laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                                href="#">#This_Post_is_Better!!!!</a>
-                        </p>
-                        <img src="{% static "images/feed-image-1.png" %}" alt="">
-
-                    </div>
-                    <div class="post-reaction">
-                        <div class="activity-icons">
-                            <div><img src="{% static "images/like-blue.png" %}" alt="">120</div>
-                            <div><img src="{% static "images/comments.png" %}" alt="">52</div>
-                            <div><img src="{% static "images/share.png" %}" alt="">35</div>
+    
+                    <!-- Outstanding Posts -->
+                    <div class="context-post-outstanding">
+                        <div class="context-aside-right-header d-flex justify-content-between align-items-center">
+                            <h6 class="title-aside"><strong>Outstanding Posts</strong></h6>
+                            <a href="#" class="view-more-link">View More</a>
                         </div>
-                        <div class="post-profile-picture">
-                            <img src="{% static "images/profile-pic.png" %}" alt=""> <i class=" fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="status-field-container write-post-container">
-                    <div class="user-profile-box">
-                        <div class="user-profile">
-                            <img src="{% static "images/profile-pic.png" %}" alt="">
-                            <div>
-                                <p> Alex Carry</p>
-                                <small>August 13 1999, 09.18 pm</small>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                        </div>
-                    </div>
-                    <div class="status-field">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                            laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                                href="#">#This_Post_is_Bigger!!!!</a>
-                        </p>
-                        <img src="{% static "images/feed-image-2.png" %}" alt="">
-
-                    </div>
-                    <div class="post-reaction">
-                        <div class="activity-icons">
-                            <div><img src="{% static "images/like-blue.png" %}" alt="">120</div>
-                            <div><img src="{% static "images/comments.png" %}" alt="">52</div>
-                            <div><img src="{% static "images/share.png" %}" alt="">35</div>
-                        </div>
-                        <div class="post-profile-picture">
-                            <img src="{% static "images/profile-pic.png" %}" alt=""> <i class=" fas fa-caret-down"></i>
-                        </div>
+                        <ol class="list-group list-group-numbered">
+                            {% for post in outstanding_posts %}
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">{{ post.title }}</div>
+                                        <p class="mb-0 text-muted">{{ post.date_created|date:"d/m/Y" }}</p>
+                                    </div>
+                                    <span class="badge text-bg-primary rounded-pill">{{ post.views }}</span>
+                                </li>
+                            {% endfor %}
+                        </ol>
                     </div>
                 </div>
-                <div class="status-field-container write-post-container">
-                    <div class="user-profile-box">
-                        <div class="user-profile">
-                            <img src="{% static "images/profile-pic.png" %}" alt="">
-                            <div>
-                                <p> Alex Carry</p>
-                                <small>August 13 1999, 09.18 pm</small>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                        </div>
-                    </div>
-                    <div class="status-field">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                            laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                                href="#">#This_Post_is_faster!!!!</a>
-                        </p>
-                        <img src="{% static "images/feed-image-3.png" %}" alt="">
-
-                    </div>
-                    <div class="post-reaction">
-                        <div class="activity-icons">
-                            <div><img src="{% static "images/like-blue.png" %}" alt="">120</div>
-                            <div><img src="{% static "images/comments.png" %}" alt="">52</div>
-                            <div><img src="{% static "images/share.png" %}" alt="">35</div>
-                        </div>
-                        <div class="post-profile-picture">
-                            <img src="{% static "images/profile-pic.png" %}" alt=""> <i class=" fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="status-field-container write-post-container">
-                    <div class="user-profile-box">
-                        <div class="user-profile">
-                            <img src="{% static "images/profile-pic.png" %}" alt="">
-                            <div>
-                                <p> Alex Carry</p>
-                                <small>August 13 1999, 09.18 pm</small>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
-                        </div>
-                    </div>
-                    <div class="status-field">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolores praesentium dicta
-                            laborum nihil accusantium odit laboriosam, sed sit autem! <a
-                                href="#">#This_Post_is_perfect!!!!</a>
-                        </p>
-                        <img src="{% static "images/feed-image-4.png" %}" alt="">
-
-                    </div>
-                    <div class="post-reaction">
-                        <div class="activity-icons">
-                            <div><img src="{% static "images/like-blue.png" %}" alt="">120</div>
-                            <div><img src="{% static "images/comments.png" %}" alt="">52</div>
-                            <div><img src="{% static "images/share.png" %}" alt="">35</div>
-                        </div>
-                        <div class="post-profile-picture">
-                            <img src="{% static "images/profile-pic.png" %}" alt=""> <i class=" fas fa-caret-down"></i>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn-LoadMore" onclick="LoadMoreToggle()">Load More</button>
             </div>
         </div>
     </div>
-    <footer id="footer">
-        <p>&copy; Copyright 2021 - Socialbook All Rights Reserved</p>
-    </footer>
-    {% load static %}
-    <script src="{% static "Js/function.js" %}"></script>
-</body>
 
+    <!--Footer-->
+    <div class="footer">
+        <div class="footer-top">
+            <img class="header-logo" src="{% static "./images/espacelogo.png" %}" alt="">
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-left">
+            <p>
+                <strong>Công ty Cổ Phần Espace</strong> <br/>
+                Trực thuộc Công ty Cổ Phần Spiderum Việt Nam (Spiderum Vietnam JSC)
+                Người chịu trách nhiệm nội dung: Trần Việt Anh<br/>
+                Giấy phép MXH số 341/GP-TTTT do Bộ TTTT cấp ngày 27 tháng 6 năm 2016
+            </p>
+        </div>
+        <div class="footer-mid">
+            <p>
+                <strong>Liên hệ hợp tác</strong>
+                <br>
+                Email: contact@spiderum.com
+                <br>
+                Điện thoại: (+84) 384 678 045
+            </p>
+        </div>
+        <div class="footer-right">
+            <p>
+                <strong>© Copyright 2017 - 2023</strong>
+                <br>
+                Email: contact@spiderum.com
+                <br>
+                Điện thoại: (+84) 946 042 093
+                <br>
+                Tầng 11, tòa nhà HL Tower, lô A2B, phố Duy Tân, phường Dịch Vọng Hậu, Cầu Giấy, Hà Nội
+            </p>
+        </div>
+        </div>
+    </div>
+
+    <!--JS-->
+    {% load static %}
+    <script src="{% static "Js/layout.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const button = document.getElementById('writepost');
+            button.addEventListener('click', function(event) {
+                event.preventDefault();  // Ngăn chặn hành vi mặc định
+                window.location.href = '{% url "user:post" %}';
+            });
+    
+            var toastEl = document.getElementById('liveToast');
+            var toast = new bootstrap.Toast(toastEl, {
+                autohide: true,
+                delay: 5000  // Hiển thị toast trong 5 giây
+            });
+            toast.show();
+        });
+    </script>
+
+    <script>
+        document.getElementById('profile-picture').onclick = function() {
+            document.getElementById('profile-picture-input').click();
+        };
+
+        document.getElementById('profile-picture-input').onchange = function() {
+            document.getElementById('profile-picture-submit').click();
+        };
+    </script>
+</body>
 </html>
